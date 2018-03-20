@@ -1,18 +1,22 @@
 require 'digest'
+require_relative 'methods'
 
 puts 'Введите слово или фразу для шифрования:'
 str = STDIN.gets.chomp
 
+variants = %w[MD5 SHA1 SHA2]
 puts
 puts 'Выберите способ шифрования:'
-puts '1. MD5'
-puts '2. SHA1'
-choice = STDIN.gets.chomp
+variants.each_with_index { |e, i| puts "#{i + 1}. #{e}" }
+
+choice = user_choice(variants.count)
 
 result = if choice == 1
            Digest::MD5.hexdigest(str)
-         else
+         elsif choice == 2
            Digest::SHA1.hexdigest(str)
+         else
+           Digest::SHA2.hexdigest(str)
          end
 
 puts
